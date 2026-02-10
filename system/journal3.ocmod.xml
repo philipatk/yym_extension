@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Journal Theme</name>
+    <code>journal3_theme</code>
+    <version>3.0</version>
+    <author>DigitalAtelier</author>
+    <link>https://www.journal-theme.com</link>
+
+    <!-- startup -->
+
+    <file path="system/engine/{front,router}.php">
+        <operation>
+            <search><![CDATA[
+            while
+            ]]></search>
+            <add position="before"><![CDATA[
+        // Journal Theme Modification
+        // It might be replaced later with startup/router.php events
+        // For now, we use it to hook into Opencart system
+
+        define('JOURNAL3_INSTALLED', '3.2.8');
+        $this->execute(new Action('journal3/startup'));
+
+        // End Journal Theme Modification
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- journal2 compatibility -->
+
+    <file path="system/engine/{front,router}.php">
+        <operation error="skip">
+            <search><![CDATA[
+            self::$IS_JOURNAL = $config->get('config_template') === 'journal2' || $config->get('theme_default_directory') === 'journal2';
+            ]]></search>
+            <add position="replace"><![CDATA[
+            self::$IS_JOURNAL = ($config->get('config_theme') === 'theme_default' || $config->get('config_theme') === 'default') && ($config->get('config_template') === 'journal2' || $config->get('theme_default_directory') === 'journal2');
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- opencart maintenance controller header/footer order fix -->
+
+    <file path="catalog/controller/common/maintenance.php">
+        <operation>
+            <search><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+            <add position="replace"><![CDATA[]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['footer'] = $this->load->controller('common/footer');]]></search>
+            <add position="replace"><![CDATA[
+        $data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- opencart 3.0.2.0 api session fix -->
+
+    <file path="catalog/controller/startup/session.php">
+        <operation>
+            <search><![CDATA[if (isset($this->request->get['route']) && substr($this->request->get['route'], 0, 4) == 'api/') {]]></search>
+            <add position="replace"><![CDATA[if (isset($this->request->get['api_token']) && substr($this->request->get['route'], 0, 4) == 'api/') {]]></add>
+        </operation>
+    </file>
+
+    <!-- opencart 2.3.x events trigger fix -->
+
+    <file path="system/engine/loader.php">
+        <operation>
+            <search><![CDATA[
+            $result = $this->registry->get('event')->trigger('view/' . $route . '/before', array(&$route, &$data, &$output));
+            ]]></search>
+            <add position="replace"><![CDATA[
+            // Journal Theme Modification
+            $trigger = $route;
+            $result = $this->registry->get('event')->trigger('view/' . $trigger . '/before', array(&$route, &$data, &$output));
+            // End Journal Theme Modification
+            ]]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA[
+            $result = $this->registry->get('event')->trigger('view/' . $route . '/after', array(&$route, &$data, &$output));
+            ]]></search>
+            <add position="replace"><![CDATA[
+            // Journal Theme Modification
+            $result = $this->registry->get('event')->trigger('view/' . $trigger . '/after', array(&$route, &$data, &$output));
+            // End Journal Theme Modification
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- pagination classes -->
+
+    <file path="system/library/pagination.php">
+        <operation>
+            <search><![CDATA['">' . $this->text_prev . ']]></search>
+            <add position="replace"><![CDATA['" class="prev">' . $this->text_prev . ']]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA['">' . $this->text_next . ']]></search>
+            <add position="replace"><![CDATA['" class="next">' . $this->text_next . ']]></add>
+        </operation>
+    </file>
+
+    <!-- optimize catalog/model/design/theme queries -->
+
+    <file path="catalog/model/design/theme.php">
+        <operation>
+            <search><![CDATA[
+            public function getTheme($route, $theme) {
+            ]]></search>
+            <add position="after"><![CDATA[
+        // Journal Theme Modification
+        // Avoid unneeded database queries
+        static $results;
+
+        if ($results === null) {
+            $results = [];
+
+            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "theme WHERE store_id = '" . (int)$this->config->get('config_store_id') . "'");
+
+            foreach ($query->rows as $row) {
+                $results[$row['theme']][$row['route']] = $row;
+            }
+        }
+
+        return $results[$theme][$route] ?? null;
+        // End Journal Theme Modification
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- optimize catalog/model/design/translation queries -->
+
+    <file path="catalog/model/design/translation.php">
+        <operation>
+            <search><![CDATA[
+            public function getTranslations($route) {
+            ]]></search>
+            <add position="after"><![CDATA[
+        // Journal Theme Modification
+        // Avoid unneeded database queries
+        static $results;
+
+		if ($results === null) {
+			if (!$this->config->get('config_language_id')) {
+				return [];
+			}
+
+			$results = [];
+
+			$language_code = !empty($this->session->data['language']) ? $this->session->data['language'] : $this->config->get('config_language');
+
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "translation WHERE store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($query->rows as $row) {
+				$results[$route][] = $row;
+			}
+		}
+
+		return $results[$route] ?? [];
+        // End Journal Theme Modification
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- login / register popup ajax response -->
+
+    <file path="catalog/controller/account/{login,register}.php">
+        <operation>
+            <search><![CDATA[$this->response->redirect]]></search>
+            <add position="before"><![CDATA[
+            if (defined('JOURNAL3_ACTIVE')) {
+                if ($this->journal3_request->is_ajax) {
+                    echo json_encode(array(
+                        'status' => 'success',
+                        'customer' => $this->customer->isLogged()
+                    ), true);
+
+                    exit;
+                }
+            }
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[return !$this->error;]]></search>
+            <add position="before"><![CDATA[
+            if (defined('JOURNAL3_ACTIVE')) {
+                if ($this->journal3_request->is_ajax && $this->error) {
+                    echo json_encode(array(
+                        'status' => 'error',
+                        'response' => $this->error
+                    ), true);
+
+                    exit;
+                }
+            }
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>

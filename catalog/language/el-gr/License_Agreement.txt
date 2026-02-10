@@ -1,0 +1,55 @@
+//----------------------------------------------------------//
+// Extension: Greek Translation for OpenCart v3.0.4.1 (StoreFront - Administration)
+// Revision: 1.0
+// Created: 04/08/2025
+// Last Updated: 04/08/2025
+// Author: People's Code
+// Copyright (C) 2013-2025 People's Code
+// Translation: Alexandra Gkogka (Αλεξάνδρα Γκόγκα)
+// Support Email: support@peoplescode.com
+// Website: www.peoplescode.com
+// Forum: www.opencart-hellas.gr
+// Facebook Group: www.facebook.com/groups/opencart.hellas
+//----------------------------------------------------------//
+
+This work is licensed under the:
+Creative Commons Attribution-NoDerivatives 4.0 International License
+https://creativecommons.org/licenses/by-nd/4.0/
+
+You are free to: 
+
+Share - copy and redistribute the material in any medium or format for any purpose, even commercially. The licensor cannot revoke these freedoms as long as you follow the license terms. 
+
+Under the following terms: 
+
+Attribution - You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. 
+
+NoDerivatives - If you remix, transform, or build upon the material, you may not distribute the modified material. 
+
+No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+For more information about the license, please read the full text of the Creative Commons license at the following URL:
+https://creativecommons.org/licenses/by-nd/4.0/
+
+//----------------------------------------------------------//
+
+Αυτό το υλικό διέπεται από την άδεια χρήσης:
+Creative Commons Attribution-NoDerivatives 4.0 International License 
+(Creative Commons Αναφορά Δημιουργού-Όχι Παράγωγα Έργα 4.0 Διεθνής)
+https://creativecommons.org/licenses/by-nd/4.0/deed.el
+
+Μπορείτε να: 
+
+Μοιραστείτε - αντιγράψετε και αναδιανέμετε το υλικό με κάθε μέσο και τρόπο για κάθε σκοπό, ακόμα και εμπορικό. Ο αδειοδότης δεν μπορεί να ανακαλέσει αυτές τις ελευθερίες όσο εσείς ακολουθείτε τους όρους της άδειας. 
+
+Υπό τους ακόλουθους όρους: 
+
+Αναφορά Δημιουργού - Θα πρέπει να καταχωρίσετε αναφορά στον δημιουργό, με σύνδεσμο της άδειας και με αναφορά αν έχουν γίνει αλλαγές. Μπορείτε να το κάνετε αυτό με οποιονδήποτε εύλογο τρόπο, αλλά όχι με τρόπο που να υπονοεί ότι ο δημιουργός αποδέχεται το έργο σας ή τη χρήση που εσείς κάνετε. 
+
+Μη παραγόμενα - Αν αναμείξετε, τροποποιήσετε, ή δημιουργήσετε πάνω στο υλικό, δεν μπορείτε να διανείμετε το τροποποιημένο υλικό. 
+
+Δεν υπάρχουν πρόσθετοι περιορισμοί — Δεν μπορείτε να εφαρμόσετε νομικούς όρους ή τεχνολογικά μέτρα που να περιορίζουν νομικά τους άλλους από το να κάνουν οτιδήποτε επιτρέπει η άδεια. 
+
+Για περισσότερες πληροφορίες σχετικά με την άδεια χρήσης, παρακαλώ διαβάστε το πλήρες κείμενο της άδειας Creative Commons στη διεύθυνση URL: 
+https://creativecommons.org/licenses/by-nd/4.0/deed.el
+

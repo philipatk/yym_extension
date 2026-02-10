@@ -1,0 +1,18 @@
+# Ignore Configuration files (Contains DB passwords)
+config.php
+admin/config.php
+
+# Ignore Storage (Cache, Logs, Modifications)
+/storage/
+/system/storage/
+
+# Ignore Images (Content)
+/image/
+!/image/catalog/demo/  # Keep demo images if you want
+
+# Ignore vendor folder (if you use composer)
+/vendor/
+
+# Ignore IDE settings
+.vscode/
+.idea/

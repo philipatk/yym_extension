@@ -1,0 +1,200 @@
+<?php
+
+// Heading
+$_['heading_title']                                     = 'Square';
+$_['heading_title_transaction']                         = 'Προβολή συναλλαγής #%s';
+
+// Help
+$_['help_total']                                        = 'Το συνολικό ποσό που πρέπει να φτάσει η παραγγελία για να ενεργοποιηθεί η μέθοδος πληρωμής.';
+$_['help_local_cron']                                   = 'Εισαγάγετε αυτήν την εντολή στις ρυθμίσεις CRON του διακομιστή φιλοξενίας σας. Ρυθμίστε το να λειτουργεί τουλάχιστον μία φορά την ημέρα.';
+$_['help_remote_cron']                                  = 'Χρησιμοποιήστε αυτήν τη διεύθυνση URL για να ρυθμίσετε μια εργασία CRON μέσω μιας υπηρεσίας CRON που βασίζεται στον ιστό. Ρυθμίστε το για να λειτουργεί τουλάχιστον μία φορά την ημέρα.';
+$_['help_recurring_status']                             = 'Ενεργοποίηση να επιτρέπονται περιοδικές επαναλαμβανόμενες πληρωμές. <br /> ΣΗΜΕΙΩΣΗ: Πρέπει επίσης να ρυθμίσετε μια καθημερινή εργασία CRON.';
+$_['help_cron_email']                                   = 'Μία σύνοψη της επαναλαμβανόμενης εργασίας θα σταλεί σε αυτό το e-mail μετά την ολοκλήρωση.';
+$_['help_cron_email_status']                            = 'Ενεργοποίηση λήψης σύνοψης μετά από κάθε εργασία CRON.';
+$_['help_notify_recurring_success']                     = 'Ειδοποίηση πελατών για επιτυχημένες επαναλαμβανόμενες συναλλαγές.';
+$_['help_notify_recurring_fail']                        = 'Ειδοποίηση πελατών για αποτυχημένες επαναλαμβανόμενες συναλλαγές.';
+
+// Tab
+$_['tab_setting']                                       = 'Ρυθμίσεις';
+$_['tab_transaction']                                   = 'Συναλλαγές';
+$_['tab_cron']                                          = 'CRON';
+$_['tab_recurring']                                     = 'Επαναλαμβανόμενες Πληρωμές';
+
+// Text
+$_['text_access_token_expires_label']                   = 'Το διακριτικό πρόσβασης (Token) λήγει';
+$_['text_access_token_expires_placeholder']             = 'Δεν έχει ρυθμιστεί';
+$_['text_acknowledge_cron']                             = 'Επιβεβαιώνω ότι έχω δημιουργήσει μια αυτοματοποιημένη εργασία CRON χρησιμοποιώντας μία από τις παραπάνω μεθόδους.';
+$_['text_admin_notifications']                          = 'Ειδοποιήσεις διαχειριστή';
+$_['text_authorize_label']                              = 'Εξουσιοδότηση';
+$_['text_canceled_success']                             = 'Επιτυχία: Ακυρώσατε επιτυχώς αυτήν την πληρωμή!';
+$_['text_capture']                                      = 'Δέσμευση';
+$_['text_client_id_help']                               = 'Λήψη από τη σελίδα Διαχείρισης Εφαρμογής στο Square';
+$_['text_client_id_label']                              = 'Αναγνωριστικό Εφαρμογής Square (Application ID)';
+$_['text_client_id_placeholder']                        = 'Αναγνωριστικό Εφαρμογής Square';
+$_['text_client_secret_help']                           = 'Λήψη από τη σελίδα Διαχείρισης Εφαρμογής στο Square';
+$_['text_client_secret_label']                          = 'Μυστικό Εφαρμογής OAuth (Secret)';
+$_['text_client_secret_placeholder']                    = 'Μυστικό Εφαρμογής OAuth';
+$_['text_confirm_action']                               = 'Είστε βέβαιοι;';
+$_['text_confirm_cancel']                               = 'Είστε βέβαιοι ότι θέλετε να ακυρώσετε τις επαναλαμβανόμενες πληρωμές;';
+$_['text_confirm_capture']                              = 'Πρόκειται να δεσμεύσετε το ακόλουθο ποσό: <strong>%s</strong>. Πατήστε Εντάξει για να συνεχίσετε.';
+$_['text_confirm_refund']                               = 'Δηλώστε έναν λόγο για την επιστροφή χρημάτων:';
+$_['text_confirm_void']                                 = 'Πρόκειται να ακυρώσετε το ακόλουθο ποσό: <strong>%s</strong>. Πατήστε Εντάξει για να συνεχίσετε.';
+$_['text_connected']                                    = 'Συνδεθήκατε';
+$_['text_connected_info']                               = "Επανασύνδεση εάν θέλετε να αλλάξετε λογαριασμούς ή έχετε ανακαλέσει χειροκίνητα την πρόσβαση αυτής της επέκτασης από την κονσόλα Εφαρμογής Square. Ανανεώστε χειροκίνητα το διακριτικό πρόσβασης (access token) εάν έχουν περάσει 45 ημέρες από την τελευταία πώληση ή επανασύνδεση.";
+$_['text_connection_section']                           = 'Σύνδεση Square';
+$_['text_connection_success']                           = 'Επιτυχημένη σύνδεση!';
+$_['text_cron_email']                                   = 'Αποστολή σύνοψης εργασιών σε αυτό το e-mail:';
+$_['text_cron_email_status']                            = 'Αποστολή e-mail σύνοψης:';
+$_['text_customer_notifications']                       = 'Ειδοποιήσεις πελατών';
+$_['text_debug_disabled']                               = 'Απενεργοποιημένο'; 
+$_['text_debug_enabled']                                = 'Ενεργοποιημένο'; 
+$_['text_debug_help']                                   = 'Τα αιτήματα και οι απαντήσεις API θα καταγραφούν στο αρχείο καταγραφής σφαλμάτων OpenCart. Χρησιμοποιήστε το μόνο για σκοπούς εντοπισμού σφαλμάτων και ανάπτυξης.';
+$_['text_debug_label']                                  = 'Καταγραφή εντοπισμού σφαλμάτων';
+$_['text_delay_capture_help']                           = 'Εξουσιοδότηση μόνο συναλλαγών ή εκτέλεση αυτόματων χρεώσεων';
+$_['text_delay_capture_label']                          = 'Τύπος συναλλαγής';
+$_['text_disabled_connect_help_text']                   = 'Τα πεδία αναγνωριστικό πελάτη (client id) και μυστικό (secret), είναι απαιτούμενα.';
+$_['text_edit_heading']                                 = 'Επεξεργασία Square';
+$_['text_enable_sandbox_help']                          = 'Ενεργοποίηση δοκιμαστικής λειτουργίας sandbox για δοκιμή συναλλαγών';
+$_['text_enable_sandbox_label']                         = 'Ενεργοποίηση λειτουργίας sandbox';
+$_['text_executables']                                  = 'Μέθοδοι εκτέλεσης CRON';
+$_['text_extension']                                    = 'Επεκτάσεις';
+$_['text_extension_status']                             = 'Κατάσταση επέκτασης';
+$_['text_extension_status_disabled']                    = 'Απενεργοποιημένο'; 
+$_['text_extension_status_enabled']                     = 'Ενεργοποιημένο'; 
+$_['text_extension_status_help']                        = 'Ενεργοποίηση ή απενεργοποίηση της μεθόδου πληρωμής'; 
+$_['text_insert_amount']                                = 'Παρακαλώ εισαγάγετε το ποσό επιστροφής χρημάτων. Μέγιστο: %s από %s:';
+$_['text_loading']                                      = 'Φόρτωση δεδομένων... Παρακαλώ περιμένετε...';
+$_['text_loading_short']                                = 'Παρακαλώ περιμένετε...';
+$_['text_local_cron']                                   = 'Μέθοδος #1 - Εργασία CRON:';
+$_['text_location_error']                               = 'Παρουσιάστηκε σφάλμα κατά την προσπάθεια συγχρονισμού τοποθεσίας και διακριτικού (token): %s';
+$_['text_location_help']                                = 'Επιλέξτε ποια τοποθεσία Square θα χρησιμοποιηθεί για συναλλαγές. Πρέπει να έχει ενεργοποιημένη τη δυνατότητα επεξεργασίας κάρτας.';
+$_['text_location_label']                               = 'Τοποθεσία';
+$_['text_manage']                                       = 'Συναλλαγή πιστωτικής κάρτας (Square)';
+$_['text_manage_tooltip']                               = 'Δείτε λεπτομέρειες / Λήψη / Ακύρωση / Επιστροφή χρημάτων';
+$_['text_merchant_info_section_heading']                = 'Πληροφορίες Εμπόρου';
+$_['text_merchant_name_label']                          = 'Όνομα Εμπόρου';
+$_['text_merchant_name_placeholder']                    = 'Δεν έχει ρυθμιστεί';
+$_['text_no_appropriate_locations_warning']             = 'Δεν υπάρχουν τοποθεσίες ικανές για ρύθμιση επεξεργασίας κάρτας στον λογαριασμό σας στο Square.';
+$_['text_no_location_selected_warning']                 = 'Δεν έχει επιλεγεί τοποθεσία.';
+$_['text_no_locations_label']                           = 'Δεν υπάρχουν έγκυρες τοποθεσίες';
+$_['text_no_transactions']                              = 'Δεν έχουν καταγραφεί ακόμη συναλλαγές.';
+$_['text_not_connected']                                = 'Αποσυνδεδεμένος';
+$_['text_not_connected_info']                           = 'Πατώντας αυτό το κουμπί, θα συνδέσετε αυτήν την επέκταση στον λογαριασμό σας Square και θα ενεργοποιήσετε την υπηρεσία.';
+$_['text_notification_ssl']                             = 'Βεβαιωθείτε ότι έχετε ενεργοποιήσει το SSL στη σελίδα ολοκλήρωσης πληρωμής του καταστήματος. Διαφορετικά, η επέκταση δεν θα λειτουργήσει.';
+$_['text_notify_recurring_fail']                        = 'Η επαναλαμβανόμενη συναλλαγή απέτυχε:';
+$_['text_notify_recurring_success']                     = 'Επιτυχής επαναλαμβανόμενη συναλλαγή:';
+$_['text_ok']                                           = 'Εντάξει';
+$_['text_order_history_cancel']                         = 'Ένας διαχειριστής ακύρωσε τις επαναλαμβανόμενες πληρωμές σας. Η κάρτα σας δεν θα χρεώνεται πλέον.';
+$_['text_payment_method_name_help']                     = 'Όνομα μεθόδου πληρωμής στην ολοκλήρωση αγοράς';
+$_['text_payment_method_name_label']                    = 'Όνομα μεθόδου πληρωμής';
+$_['text_payment_method_name_placeholder']              = 'Πιστωτική / Χρεωστική κάρτα';
+$_['text_recurring_info']                               = 'Παρακαλώ βεβαιωθείτε ότι έχετε ρυθμίσει μια καθημερινή εργασία CRON χρησιμοποιώντας μία από τις παρακάτω μεθόδους. Οι εργασίες CRON σας βοηθούν για:<br /><br />&bull; Αυτόματη ανανέωση του διακριτικού πρόσβασης API (API access token)<br />&bull; Επεξεργασία επαναλαμβανόμενων συναλλαγών';
+$_['text_recurring_status']                             = 'Κατάσταση επαναλαμβανόμενων πληρωμών:';
+$_['text_redirect_uri_help']                            = 'Επικολλήστε αυτόν τον σύνδεσμο στο πεδίο URI ανακατεύθυνσης στην ενότητα Διαχείριση εφαρμογής / oAuth';
+$_['text_redirect_uri_label']                           = 'URL ανακατεύθυνσης Square (OAuth Redirect)';
+$_['text_refresh_access_token_success']                 = 'Ανανεώθηκε επιτυχώς η σύνδεση με τον λογαριασμό σας στο Square.'; 
+$_['text_refresh_token']                                = 'Δημιουργία νέου διακριτικού token';
+$_['text_refund']                                       = 'Επιστροφή χρημάτων';
+$_['text_refund_details']                               = 'Λεπτομέρειες επιστροφής χρημάτων';
+$_['text_refunded_amount']                              = 'Επιστροφή χρημάτων: %s. Κατάσταση επιστροφής χρημάτων: %s. Λόγος επιστροφής χρημάτων: %s';
+$_['text_refunds']                                      = 'Επιστροφές χρημάτων (%s)';
+$_['text_remote_cron']                                  = 'Μέθοδος #2 - Απομακρυσμένο CRON:';
+$_['text_sale_label']                                   = 'Πώληση';
+$_['text_sandbox_access_token_help']                    = 'Λήψη από τη σελίδα διαχείρισης εφαρμογής στο Square';
+$_['text_sandbox_access_token_label']                   = 'Διακριτικό (token) πρόσβασης στο Sandbox';
+$_['text_sandbox_access_token_placeholder']             = 'Διακριτικό Πρόσβασης Sandbox';
+$_['text_sandbox_client_id_help']                       = 'Λήψη από τη σελίδα διαχείρισης εφαρμογής στο Square';
+$_['text_sandbox_client_id_label']                      = 'Αναγνωριστικό εφαρμογής Sandbox';
+$_['text_sandbox_client_id_placeholder']                = 'Αναγνωριστικό εφαρμογής Sandbox';
+$_['text_sandbox_disabled_label']                       = 'Απενεργοποιημένο'; 
+$_['text_sandbox_enabled']                              = 'Η λειτουργία Sandbox είναι ενεργοποιημένη! Οι συναλλαγές εμφανίζονται, αλλά δεν θα πραγματοποιούνται χρεώσεις.';
+$_['text_sandbox_enabled_label']                        = 'Ενεργοποιημένο'; 
+$_['text_sandbox_section_heading']                      = 'Ρυθμίσεις Square Sandbox';
+$_['text_select_location']                              = 'Επιλογή τοποθεσίας';
+$_['text_settings_section_heading']                     = 'Ρυθμίσεις Square';
+$_['text_squareup']                                     = '<a target="_BLANK" href="https://squareup.com"><img src="view/image/payment/squareup.png" alt="Square" title="Square" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_success']                                      = 'Επιτυχία: Έχετε επεξεργαστεί τη μέθοδο πληρωμής Square!';
+$_['text_success_capture']                              = 'Η συναλλαγή δεσμεύτηκε με επιτυχία!';
+$_['text_success_refund']                               = 'Η συναλλαγή επιστράφηκε με επιτυχία!';
+$_['text_success_void']                                 = 'Η συναλλαγή ακυρώθηκε με επιτυχία!';
+$_['text_token_expired']                                = 'Το διακριτικό πρόσβασης (token) στο Square έχει λήξει! <a href="%s">Πατήστε Εδώ</a> για να το ανανεώσετε.';
+$_['text_token_expiry_warning']                         = 'Το διακριτικό πρόσβασης (token) στο Square θα λήξει στις %s. <a href="%s">Πατήστε Εδώ</a> για να το ανανεώσετε.';
+$_['text_token_revoked']                                = 'Το διακριτικό πρόσβασης (token) στο Square έχει λήξει ή έχει ανακληθεί! <a href="%s">Πατήστε Εδώ</a> για να εξουσιοδοτήσετε ξανά την επέκταση Square.';
+$_['text_transaction_statuses']                         = 'Καταστάσεις συναλλαγών';
+$_['text_view']                                         = 'Προβολή περισσότερων';
+$_['text_void']                                         = 'Ακυρωμένη';
+$_['text_na']                                           = 'Μ/Δ';
+$_['text_no_reason_provided']                           = 'Ο λόγος δεν παρέχεται.';
+
+// Statuses
+$_['squareup_status_comment_authorized']                = 'Η συναλλαγή με κάρτα έχει εγκριθεί αλλά δεν έχει ακόμη δεσμευτεί.';
+$_['squareup_status_comment_captured']                  = 'Η συναλλαγή της κάρτας εγκρίθηκε και στη συνέχεια δεσμεύτηκε (π.χ. ολοκληρώθηκε)';
+$_['squareup_status_comment_voided']                    = 'Η συναλλαγή της κάρτας εγκρίθηκε και στη συνέχεια ακυρώθηκε (δηλαδή, ακυρώθηκε).';
+$_['squareup_status_comment_failed']                    = 'Η συναλλαγή με κάρτα απέτυχε.';
+
+// Entry
+$_['entry_total']                                       = 'Σύνολο';
+$_['entry_geo_zone']                                    = 'Γεωγραφική Ζώνη';
+$_['entry_sort_order']                                  = 'Σειρά Ταξινόμησης';
+$_['entry_merchant']                                    = 'Αναγνωριστικό Εμπόρου (Merchant ID)';
+$_['entry_transaction_id']                              = 'Αναγνωριστικό Παραγγελίας (Transaction ID)';
+$_['entry_order_id']                                    = 'Αριθμός Παραγγελίας';
+$_['entry_partner_solution_id']                         = 'Αναγνωριστικό Λύσης Συνεργάτη (Partner Solution ID)';
+$_['entry_type']                                        = 'Τύπος Συναλλαγής';
+$_['entry_currency']                                    = 'Νόμισμα';
+$_['entry_amount']                                      = 'Ποσό';
+$_['entry_browser']                                     = 'User Agent Πελάτη';
+$_['entry_ip']                                          = 'IP Πελάτη';
+$_['entry_date_created']                                = 'Ημερομηνία Δημιουργίας';
+$_['entry_billing_address_company']                     = 'Εταιρεία Χρέωσης';
+$_['entry_billing_address_street']                      = 'Οδός Χρέωσης';
+$_['entry_billing_address_city']                        = 'Πόλη Χρέωσης';
+$_['entry_billing_address_postcode']                    = 'Ταχυδρομικός Κώδικας Χρέωσης';
+$_['entry_billing_address_province']                    = 'Περιφέρεια / Περιοχή Χρέωσης';
+$_['entry_billing_address_country']                     = 'Χώρα Χρέωσης';
+$_['entry_status_authorized']                           = 'Εξουσιοδοτημένη';
+$_['entry_status_captured']                             = 'Δεσμευμένη';
+$_['entry_status_voided']                               = 'Ακυρωμένη';
+$_['entry_status_failed']                               = 'Αποτυχημένη';
+$_['entry_setup_confirmation']                          = 'Επιβεβαίωση Ρυθμίσεων:';
+
+// Error
+$_['error_permission']                                  = '<strong>Ειδοποίηση:</strong> Δεν έχετε άδεια να επεξεργαστείτε την πληρωμή Square!';
+$_['error_permission_recurring']                        = '<strong>Ειδοποίηση:</strong> Δεν έχετε άδεια να επεξεργαστείτε τις επαναλαμβανόμενες πληρωμές!';
+$_['error_transaction_missing']                         = 'Η συναλλαγή δεν βρέθηκε!';
+$_['error_no_ssl']                                      = '<strong>Ειδοποίηση:</strong> Το SSL δεν είναι ενεργοποιημένο στον πίνακα διαχείρισης. Ενεργοποιήστε το για να ολοκληρώσετε τις ρυθμίσεις σας.';
+$_['error_user_rejected_connect_attempt']               = 'Η προσπάθεια σύνδεσης ακυρώθηκε από τον χρήστη.';
+$_['error_possible_xss']                                = 'Εντοπίσαμε πιθανή επίθεση μεταξύ ιστότοπων (cross site attack) και τερματίσαμε την προσπάθεια σύνδεσης. Επαληθεύστε το αναγνωριστικό και το μυστικό της εφαρμογής σας και δοκιμάστε ξανά χρησιμοποιώντας τα κουμπιά στον πίνακα διαχειριστή.';
+$_['error_invalid_email']                               = 'Η παρεχόμενη διεύθυνση ηλεκτρονικού ταχυδρομείου δεν είναι έγκυρη!';
+$_['error_cron_acknowledge']                            = 'Παρακαλώ επιβεβαιώστε ότι έχετε ρυθμίσει μια εργασία CRON.';
+$_['error_client_id']                                   = 'Το αναγνωριστικό πελάτη εφαρμογής (app client ID) είναι υποχρεωτικό πεδίο';
+$_['error_client_secret']                               = 'Το μυστικό πελάτη εφαρμογής (app client secret) είναι υποχρεωτικό πεδίο';
+$_['error_sandbox_client_id']                           = 'Το αναγνωριστικό πελάτη sandbox είναι υποχρεωτικό πεδίο όταν είναι ενεργοποιημένη η λειτουργία sandbox';
+$_['error_sandbox_token']                               = 'Το διακριτικό (token) του sandbox είναι ένα υποχρεωτικό πεδίο όταν είναι ενεργοποιημένη η λειτουργία sandbox';
+$_['error_no_location_selected']                        = 'Η τοποθεσία είναι υποχρεωτικό πεδίο';
+$_['error_refresh_access_token']                        = "Παρουσιάστηκε σφάλμα κατά την προσπάθεια ανανέωσης της σύνδεσης της επέκτασης με τον λογαριασμό σας στο Square. Παρακαλώ επαληθεύστε τα διαπιστευτήρια της εφαρμογής σας και δοκιμάστε ξανά.";
+$_['error_form']                                        = 'Παρακαλώ ελέγξτε τη φόρμα για σφάλματα και προσπαθήστε να αποθηκεύσετε ξανά.';
+$_['error_token']                                       = 'Παρουσιάστηκε σφάλμα κατά την ανανέωση του διακριτικού: %s';
+$_['error_no_refund']                                   = 'Η επιστροφή χρημάτων απέτυχε.';
+
+// Column
+$_['column_transaction_id']                             = 'Αναγνωριστικό Συναλλαγής (Transaction ID)';
+$_['column_order_id']                                   = 'Αριθμός Παραγγελίας (Order ID)';
+$_['column_customer']                                   = 'Πελάτης';
+$_['column_status']                                     = 'Κατάσταση';
+$_['column_type']                                       = 'Τύπος';
+$_['column_amount']                                     = 'Ποσό';
+$_['column_ip']                                         = 'IP';
+$_['column_date_created']                               = 'Ημερομηνία Δημιουργίας';
+$_['column_action']                                     = 'Ενέργεια';
+$_['column_refunds']                                    = 'Επιστροφές Χρημάτων';
+$_['column_reason']                                     = 'Αιτία';
+$_['column_fee']                                        = 'Χρέωση Επεξεργασίας';
+
+// Button
+$_['button_void']                                       = 'Άκυρο';
+$_['button_refund']                                     = 'Επιστροφή χρημάτων';
+$_['button_capture']                                    = 'Δέσμευση';
+$_['button_connect']                                    = 'Σύνδεση';
+$_['button_reconnect']                                  = 'Επανασύνδεση';
+$_['button_refresh']                                    = 'Ανανέωση Διακριτικού (Token)';

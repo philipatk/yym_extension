@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Journal Theme Debug</name>
+    <code>journal3_theme_debug</code>
+    <version>3.0</version>
+    <author>DigitalAtelier</author>
+    <link>https://www.journal-theme.com</link>
+
+    <!-- Database -->
+
+    <file path="system/library/db.php">
+        <operation>
+            <search><![CDATA[class DB {]]></search>
+            <add position="after"><![CDATA[
+    // Journal Theme Modification
+    public static $JOURNAL3_QUERY_LOG = [];
+    // End Journal Theme Modification
+          ]]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA[return $this->adaptor->query($sql]]></search>
+            <add position="before"><![CDATA[
+        // Journal Theme Modification
+        $start = microtime(true);
+
+        if (version_compare(VERSION, '3', '>=')) {
+            $result = $this->adaptor->query($sql);
+        } else {
+            $result = $this->adaptor->query($sql, $params);
+        }
+
+        $end = microtime(true);
+
+        $data = [
+          'time' => $start,
+          'file' => debug_backtrace()[array_search(__FUNCTION__, array_column(debug_backtrace(), 'function'))]['file'],
+        ];
+
+        if (function_exists('clock')) {
+          clock()->addDatabaseQuery($sql, [], ($end - $start) * 1000, $data);
+        } else {
+          static::$JOURNAL3_QUERY_LOG[] = ['sql' => $sql, 'time' => ($end - $start) * 1000, 'data' => $data];
+        }
+
+        return $result;
+        // End Journal Theme Modification
+      ]]></add>
+        </operation>
+    </file>
+
+    <!-- Cache -->
+
+    <file path="system/library/cache.php">
+        <operation>
+            <search><![CDATA[return $this->adaptor->get($key);]]></search>
+            <add position="replace"><![CDATA[
+        // Journal Theme Modification
+        $start = microtime(true);
+
+        $result = $this->adaptor->get($key);
+
+        $end = microtime(true);
+
+        $data = [
+          'file' => debug_backtrace()[array_search(__FUNCTION__, array_column(debug_backtrace(), 'function'))]['file'],
+        ];
+
+        if (function_exists('clock')) {
+          clock()->addCacheQuery('read', $key, $result ? 'HIT' : false, ($end - $start) * 1000, $data);
+        }
+
+        return $result;
+        // End Journal Theme Modification
+      ]]></add>
+        </operation>
+    </file>
+
+    <!-- Debug -->
+
+    <file path="system/library/response.php">
+        <operation>
+            <search><![CDATA[echo $output;]]></search>
+            <add position="before"><![CDATA[
+            // Journal Theme Modification
+            if (function_exists('clock')) {
+                clock()->requestProcessed();
+            }
+            // End Journal Theme Modification
+      ]]></add>
+        </operation>
+    </file>
+
+</modification>

@@ -1,0 +1,2 @@
+2026-02-06 20:04:39 - PHP Warning:  mysqli::query(): (HY000/2006): MySQL server has gone away in C:\xampp\htdocs\mystore\system\library\db\mysqli.php on line 25
+2026-02-06 20:07:30 - PHP Warning:  mysqli::query(): (HY000/1813): Tablespace for table '`mystore`.`oc_cart`' exists. Please DISCARD the tablespace before IMPORT in C:\xampp\htdocs\mystore\system\library\db\mysqli.php on line 25

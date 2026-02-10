@@ -6,27 +6,27 @@
     <author>You</author>
     <link>http://localhost</link>
 
-    <file path="catalog/model/catalog/product.php">
-        <operation>
+    <file error="log" path="catalog/model/catalog/product.php">
+        <!-- <operation>
             <search><![CDATA[p2s ON (p.product_id = p2s.product_id)]]></search>
             <add position="replace"><![CDATA[p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_ymm p2ymm ON (p.product_id = p2ymm.product_id)]]></add>
-        </operation>
+        </operation> -->
         
-        <operation>
+        <!-- <operation error="log">
             <search><![CDATA[p.status = '1']]></search>
-            <add position="replace"><![CDATA[p.status = '1'" . (isset($this->session->data['ymm_model_id']) && isset($this->session->data['ymm_year']) ? " AND ((p2ymm.model_id = '" . (int)$this->session->data['ymm_model_id'] . "' AND p2ymm.year_start <= '" . (int)$this->session->data['ymm_year'] . "' AND p2ymm.year_end >= '" . (int)$this->session->data['ymm_year'] . "') OR p2ymm.model_id = 0)" : "") . "]]></add>
-        </operation>
+            <add position="replace"><![CDATA[p.status = '1']]></add>
+        </operation> -->
     </file>
 
-    <file path="catalog/model/journal3/product.php">
+    <file error="log" path="catalog/model/journal3/product.php">
         <operation>
             <search><![CDATA[LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)]]></search>
             <add position="replace"><![CDATA[LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_ymm p2ymm ON (p.product_id = p2ymm.product_id)]]></add>
         </operation>
         
-        <operation>
+        <operation error="log">
             <search><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "']]></search>
-            <add position="replace"><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'" . (isset($this->session->data['ymm_model_id']) && isset($this->session->data['ymm_year']) ? " AND ((p2ymm.model_id = '" . (int)$this->session->data['ymm_model_id'] . "' AND p2ymm.year_start <= '" . (int)$this->session->data['ymm_year'] . "' AND p2ymm.year_end >= '" . (int)$this->session->data['ymm_year'] . "') OR p2ymm.model_id = 0)" : "") . "]]></add>
+            <add position="replace"><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND (p2ymm.model_id IS NULL OR (p2ymm.model_id = '10' AND p2ymm.year_start >= 2000 AND p2ymm.year_end <= 2030  ) ) ]]></add>
         </operation>
     </file>
 

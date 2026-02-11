@@ -1,0 +1,113 @@
+<div class="ymm-box journal-box">
+    <div class="box-heading">Find Your Parts</div>
+    <div class="box-content">
+        
+        <div class="form-group">
+            <select name="ymm_make" id="ymm_make" class="form-control">
+                <option value="">Select Make</option>
+                {% for make in makes %}
+                    <option value="{{ make.make_id }}" {% if make.make_id == selected_make %}selected{% endif %}>{{ make.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <select name="ymm_model" id="ymm_model" class="form-control" {% if not selected_model %}disabled{% endif %}>
+                <option value="">Select Model</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <select name="ymm_year" id="ymm_year" class="form-control" disabled>
+                <option value="">Select Year</option>
+            </select>
+        </div>
+
+        <button type="button" id="btn-ymm-search" class="btn btn-primary btn-block">Search</button>
+        <a href="index.php?route=extension/module/ymm/clearFilter" class="btn btn-default btn-block btn-sm">Clear Filter</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    
+    function loadModels(make_id, selected_id = null) {
+        $.ajax({
+            url: 'index.php?route=extension/module/ymm/getModels',
+            type: 'post',
+            data: { make_id: make_id },
+            dataType: 'json',
+            success: function(json) {
+                var html = '<option value="">Select Model</option>';
+                for (i = 0; i < json.length; i++) {
+                    html += '<option value="' + json[i]['model_id'] + '"' + (json[i]['model_id'] == selected_id ? ' selected' : '') + '>' + json[i]['name'] + '</option>';
+                }
+                $('#ymm_model').html(html).prop('disabled', false);
+                
+                if(selected_id) { 
+                    loadYears(selected_id, '{{ selected_year }}'); 
+                }
+            }
+        });
+    }
+
+    // UPDATED: Load Years
+    function loadYears(model_id, selected_id = null) {
+        $.ajax({
+            url: 'index.php?route=extension/module/ymm/getYears',
+            type: 'post',
+            data: { model_id: model_id },
+            dataType: 'json',
+            success: function(json) {
+                var html = '<option value="">Select Year</option>';
+                if (json.length) {
+                    for (i = 0; i < json.length; i++) {
+                        // Displaying the NAME from database
+                        html += '<option value="' + json[i]['year_id'] + '"' + (json[i]['year_id'] == selected_id ? ' selected' : '') + '>' + json[i]['name'] + '</option>';
+                    }
+                    $('#ymm_year').html(html).prop('disabled', false);
+                } else {
+                    $('#ymm_year').html('<option value="">No years found</option>').prop('disabled', true);
+                }
+            }
+        });
+    }
+
+    var currentMake = '{{ selected_make }}';
+    var currentModel = '{{ selected_model }}';
+    if(currentMake) { loadModels(currentMake, currentModel); }
+
+    $('#ymm_make').on('change', function() {
+        var id = $(this).val();
+        $('#ymm_model').html('<option>Loading...</option>').prop('disabled', true);
+        $('#ymm_year').html('<option>Select Model First</option>').prop('disabled', true);
+        loadModels(id);
+    });
+
+    $('#ymm_model').on('change', function() {
+        var id = $(this).val();
+        $('#ymm_year').html('<option>Loading...</option>').prop('disabled', true);
+        loadYears(id);
+    });
+
+    $('#btn-ymm-search').on('click', function() {
+        var make = $('#ymm_make').val();
+        var model = $('#ymm_model').val();
+        var year = $('#ymm_year').val();
+
+        if (make && model && year) {
+            $.ajax({
+                url: 'index.php?route=extension/module/ymm/saveFilter',
+                type: 'post',
+                data: { make_id: make, model_id: model, year_id: year },
+                dataType: 'json',
+                success: function(json) {
+                    if(json['success']) { location.reload(); }
+                }
+            });
+        } else {
+            alert('Please select all fields');
+        }
+    });
+});
+</script>

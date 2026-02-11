@@ -75,6 +75,12 @@ class ControllerExtensionModuleYmm extends Controller {
 
     public function clearFilter() {
         unset($this->session->data['ymm']);
-        $this->response->redirect($this->url->link('common/home'));
+        // 2. Redirect back to the previous page
+        if (isset($this->request->server['HTTP_REFERER'])) {
+            $this->response->redirect($this->request->server['HTTP_REFERER']);
+        } else {
+            // Fallback to home if referer is missing
+            $this->response->redirect($this->url->link('common/home'));
+        }
     }
 }

@@ -272,7 +272,8 @@ class ControllerExtensionModuleYmm extends Controller {
         
         $data['cancel'] = $this->url->link('extension/module/ymm/' . $type . 's', 'user_token=' . $this->session->data['user_token'], true);
 
-        // Get Data
+        // Get Saved Data
+        $info = array();
         if (isset($this->request->get[$type . '_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
             $funcName = 'get' . ucfirst($type);
             $info = $this->model_extension_module_ymm->$funcName($this->request->get[$type . '_id']);
@@ -280,10 +281,33 @@ class ControllerExtensionModuleYmm extends Controller {
 
         $data['name'] = isset($this->request->post['name']) ? $this->request->post['name'] : (!empty($info) ? $info['name'] : '');
 
-        // If Type is Model, load Makes for dropdown
+        // ===============================================
+        // 1. LOGIC FOR "MODEL" PAGE
+        // ===============================================
         if ($type == 'model') {
             $data['makes'] = $this->model_extension_module_ymm->getMakes();
             $data['make_id'] = isset($this->request->post['make_id']) ? $this->request->post['make_id'] : (!empty($info) ? $info['make_id'] : '');
+        }
+
+        // ===============================================
+        // 2. LOGIC FOR "YEAR" PAGE (Standard Dropdown)
+        // ===============================================
+        if ($type == 'year') {
+            $data['model_id'] = isset($this->request->post['model_id']) ? $this->request->post['model_id'] : (!empty($info) ? $info['model_id'] : '');
+            $data['year_start'] = isset($this->request->post['year_start']) ? $this->request->post['year_start'] : (!empty($info) ? $info['year_start'] : '');
+            $data['year_end'] = isset($this->request->post['year_end']) ? $this->request->post['year_end'] : (!empty($info) ? $info['year_end'] : '');
+
+            // Load ALL models and format them as "Make, Model"
+            $data['models'] = array();
+            $results = $this->model_extension_module_ymm->getModels(); // Gets all models
+
+            foreach ($results as $result) {
+                $data['models'][] = array(
+                    'model_id' => $result['model_id'],
+                    // This creates the "BMW, E40" format
+                    'name'     => $result['make_name'] . ', ' . $result['name'] 
+                );
+            }
         }
 
         $data['user_token'] = $this->session->data['user_token'];
@@ -390,5 +414,60 @@ class ControllerExtensionModuleYmm extends Controller {
         $this->response->setOutput(json_encode($json));
     }
     
+    // ==========================================
+    // YEARS CONTROLLER LOGIC
+    // ==========================================
+    public function years() {
+        $this->load->language('extension/module/ymm');
+        $this->document->setTitle('Manage Years');
+        $this->load->model('extension/module/ymm');
+
+        // This tells getList to load the 'year' logic
+        $this->getList('year');
+    }
+
+    public function addYear() {
+        $this->load->language('extension/module/ymm');
+        $this->document->setTitle('Add Year');
+        $this->load->model('extension/module/ymm');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_extension_module_ymm->addYear($this->request->post);
+            $this->session->data['success'] = 'Success: You have modified years!';
+            $this->response->redirect($this->url->link('extension/module/ymm/years', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getForm('year');
+    }
+
+    public function editYear() {
+        $this->load->language('extension/module/ymm');
+        $this->document->setTitle('Edit Year');
+        $this->load->model('extension/module/ymm');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_extension_module_ymm->editYear($this->request->get['year_id'], $this->request->post);
+            $this->session->data['success'] = 'Success: You have modified years!';
+            $this->response->redirect($this->url->link('extension/module/ymm/years', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getForm('year');
+    }
+
+    public function deleteYear() {
+        $this->load->language('extension/module/ymm');
+        $this->document->setTitle('Delete Year');
+        $this->load->model('extension/module/ymm');
+
+        if (isset($this->request->post['selected']) && $this->validateDelete()) {
+            foreach ($this->request->post['selected'] as $year_id) {
+                $this->model_extension_module_ymm->deleteYear($year_id);
+            }
+            $this->session->data['success'] = 'Success: You have modified years!';
+            $this->response->redirect($this->url->link('extension/module/ymm/years', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getList('year');
+    }
 
 }

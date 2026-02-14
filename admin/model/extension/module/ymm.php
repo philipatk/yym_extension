@@ -64,19 +64,6 @@ class ModelExtensionModuleYmm extends Model {
         return $query->row;
     }
 
-    public function getModels($data = array()) {
-        $sql = "SELECT m.*, mk.name as make_name FROM " . DB_PREFIX . "ymm_models m LEFT JOIN " . DB_PREFIX . "ymm_makes mk ON (m.make_id = mk.make_id)";
-        $sql .= " ORDER BY m.name ASC";
-        
-        if (isset($data['start']) || isset($data['limit'])) {
-            if ($data['start'] < 0) $data['start'] = 0;
-            if ($data['limit'] < 1) $data['limit'] = 20;
-            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-        }
-        
-        $query = $this->db->query($sql);
-        return $query->rows;
-    }
 
     public function getTotalModels() {
         $query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "ymm_models");
@@ -127,24 +114,24 @@ class ModelExtensionModuleYmm extends Model {
         return $query->row['total'];
     }
 
-    // public function getModels($data = array()) {
-    //     $sql = "SELECT m.*, mk.name as make_name FROM " . DB_PREFIX . "ymm_models m LEFT JOIN " . DB_PREFIX . "ymm_makes mk ON (m.make_id = mk.make_id)";
+    public function getModels($data = array()) {
+        $sql = "SELECT m.*, mk.name as make_name FROM " . DB_PREFIX . "ymm_models m LEFT JOIN " . DB_PREFIX . "ymm_makes mk ON (m.make_id = mk.make_id)";
         
-    //     // NEW: Search Logic
-    //     if (!empty($data['filter_name'])) {
-    //         // Search either Model Name OR Make Name
-    //         $sql .= " WHERE m.name LIKE '" . $this->db->escape($data['filter_name']) . "%' OR mk.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
-    //     }
+        // NEW: Search Logic
+        if (!empty($data['filter_name'])) {
+            // Search either Model Name OR Make Name
+            $sql .= " WHERE m.name LIKE '" . $this->db->escape($data['filter_name']) . "%' OR mk.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+        }
         
-    //     $sql .= " ORDER BY mk.name ASC, m.name ASC"; // Sort by Make, then Model
+        $sql .= " ORDER BY mk.name ASC, m.name ASC"; // Sort by Make, then Model
         
-    //     if (isset($data['start']) || isset($data['limit'])) {
-    //         if ($data['start'] < 0) $data['start'] = 0;
-    //         if ($data['limit'] < 1) $data['limit'] = 20;
-    //         $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-    //     }
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) $data['start'] = 0;
+            if ($data['limit'] < 1) $data['limit'] = 20;
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        }
         
-    //     $query = $this->db->query($sql);
-    //     return $query->rows;
-    // }
+        $query = $this->db->query($sql);
+        return $query->rows;
+    }
 }

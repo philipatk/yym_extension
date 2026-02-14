@@ -1,31 +1,169 @@
-<div class="ymm-box journal-box">
-    <div class="box-heading">Find Your Parts</div>
-    <div class="box-content">
+<style>
+    /* --- CONTAINER --- */
+    .ymm-modern-container {
+        background-color: var(--grayscale_10); 
+        padding: 20px;
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+        width:100%
+    }
+
+    .ymm-title {
+        text-align: center;
+        color: var(--grayscale_90); 
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    /* --- GRID LAYOUT (The Fix) --- */
+    .ymm-inputs-group {
+        display: grid;
+        width: 100%;
+        gap: 15px;
+        margin-bottom: 15px;
         
-        <div class="form-group">
-            <select name="ymm_make" id="ymm_make" class="form-control">
-                <option value="">Select Make</option>
+        /* DEFAULT: 1 Column (Stacked one under the other) */
+        /* This applies to Mobile and Small screens by default */
+        grid-template-columns: 1fr; 
+    }
+
+    /* --- ROW STYLING --- */
+    .ymm-row {
+        position: relative;
+        height: 50px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* --- NUMBER BOX (LEFT) --- */
+    .ymm-number {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 40px; 
+        background-color: var(--brand_primary); 
+        color: #fff;
+        font-size: 18px; 
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        z-index: 5;
+        pointer-events: none; 
+    }
+
+    /* --- ARROW BOX (RIGHT) --- */
+    .ymm-arrow {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 40px; 
+        background-color: var(--grayscale_90);
+        color: #fff;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        z-index: 5;
+        pointer-events: none; 
+    }
+
+    /* --- SELECT INPUT --- */
+    select.ymm-select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        padding-left: 50px; 
+        padding-right: 45px; 
+        font-size: 14px;
+        color: var(--grayscale_90);
+        cursor: pointer;
+        outline: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none; 
+        position: relative;
+        z-index: 2;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    select.ymm-select:focus { background-color: #fff; }
+    select.ymm-select:disabled { background-color: #f9f9f9; cursor: not-allowed; color: #aaa; }
+
+    /* --- SEARCH BUTTON --- */
+    .ymm-btn-search {
+        width: 100%; /* Force full width at the bottom */
+        height: 50px;
+        background-color: var(--brand_primary);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .ymm-btn-search:hover { opacity: 0.9; }
+
+    .ymm-clear {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #999;
+        font-size: 12px;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="ymm-modern-container">
+    <div class="ymm-title">{{ heading_title }}</div>
+
+    <div class="ymm-inputs-group">
+        <div class="ymm-row">
+            <div class="ymm-number">1</div>
+            <div class="ymm-arrow"><i class="fa fa-chevron-down"></i></div>
+            <select name="ymm_make" id="ymm_make" class="ymm-select">
+                <option value="">{{ text_select_make }}</option>
                 {% for make in makes %}
                     <option value="{{ make.make_id }}" {% if make.make_id == selected_make %}selected{% endif %}>{{ make.name }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <div class="form-group">
-            <select name="ymm_model" id="ymm_model" class="form-control" {% if not selected_model %}disabled{% endif %}>
-                <option value="">Select Model</option>
+        <div class="ymm-row">
+            <div class="ymm-number">2</div>
+            <div class="ymm-arrow"><i class="fa fa-chevron-down"></i></div>
+            <select name="ymm_model" id="ymm_model" class="ymm-select" {% if not selected_model %}disabled{% endif %}>
+                <option value="">{{ text_select_model }}</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <select name="ymm_year" id="ymm_year" class="form-control" disabled>
-                <option value="">Select Year</option>
+        <div class="ymm-row">
+            <div class="ymm-number">3</div>
+            <div class="ymm-arrow"><i class="fa fa-chevron-down"></i></div>
+            <select name="ymm_year" id="ymm_year" class="ymm-select" disabled>
+                <option value="">{{ text_select_year }}</option>
             </select>
         </div>
-
-        <button type="button" id="btn-ymm-search" class="btn btn-primary btn-block">Search</button>
-        <a href="index.php?route=extension/module/ymm/clearFilter" class="btn btn-default btn-block btn-sm">Clear Filter</a>
-    </div>
+    </div> 
+    
+    <button type="button" id="btn-ymm-search" class="ymm-btn-search">{{ button_search }}</button>
+    
+    <a href="index.php?route=extension/module/ymm/clearFilter" class="ymm-clear">{{ button_clear }}</a>
 </div>
 
 <script type="text/javascript">
@@ -51,7 +189,6 @@ $(document).ready(function() {
         });
     }
 
-    // UPDATED: Load Years
     function loadYears(model_id, selected_id = null) {
         $.ajax({
             url: 'index.php?route=extension/module/ymm/getYears',
@@ -62,7 +199,6 @@ $(document).ready(function() {
                 var html = '<option value="">Select Year</option>';
                 if (json.length) {
                     for (i = 0; i < json.length; i++) {
-                        // Displaying the NAME from database
                         html += '<option value="' + json[i]['year_id'] + '"' + (json[i]['year_id'] == selected_id ? ' selected' : '') + '>' + json[i]['name'] + '</option>';
                     }
                     $('#ymm_year').html(html).prop('disabled', false);
@@ -75,7 +211,10 @@ $(document).ready(function() {
 
     var currentMake = '{{ selected_make }}';
     var currentModel = '{{ selected_model }}';
-    if(currentMake) { loadModels(currentMake, currentModel); }
+    
+    if(currentMake) { 
+        loadModels(currentMake, currentModel); 
+    }
 
     $('#ymm_make').on('change', function() {
         var id = $(this).val();

@@ -3,6 +3,17 @@ class ControllerExtensionModuleYmm extends Controller {
     public function index() {
         $this->load->language('extension/module/ymm');
 
+        // 1. ADD THIS LINE FIRST to load the language file
+    $this->load->language('extension/module/ymm');
+
+        // 2. ADD THESE LINES to put the text into variables for Twig
+        $data['heading_title'] = $this->language->get('heading_title');
+        $data['text_select_make'] = $this->language->get('text_select_make');
+        $data['text_select_model'] = $this->language->get('text_select_model');
+        $data['text_select_year'] = $this->language->get('text_select_year');
+        $data['button_search'] = $this->language->get('button_search');
+        $data['button_clear'] = $this->language->get('button_clear');
+
         // 1. Get Makes
         $data['makes'] = $this->db->query("SELECT * FROM " . DB_PREFIX . "ymm_makes ORDER BY name ASC")->rows;
 

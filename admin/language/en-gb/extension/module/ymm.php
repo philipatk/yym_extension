@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']    = 'YMM Filter (Custom)';
+$_['heading_title']    = 'Find You Product';
 
 // Text
 $_['text_extension']   = 'Extensions';

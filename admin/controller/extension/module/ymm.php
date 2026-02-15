@@ -491,7 +491,7 @@ class ControllerExtensionModuleYmm extends Controller {
     public function autocomplete() {
         $json = array();
 
-        if (isset($this->request->get['filter_name'])) {
+        if ($this->user->hasPermission('access', 'extension/module/ymm') && isset($this->request->get['filter_name'])) {
             $this->load->model('extension/module/ymm');
 
             $filter_data = array(
@@ -503,10 +503,10 @@ class ControllerExtensionModuleYmm extends Controller {
             $results = $this->model_extension_module_ymm->getModels($filter_data);
 
             foreach ($results as $result) {
-                // FORMAT: Make > Model
+                // FORMAT: Make, Model
                 $json[] = array(
                     'model_id' => $result['model_id'],
-                    'name'     => strip_tags(html_entity_decode($result['make_name'] . ' > ' . $result['name'], ENT_QUOTES, 'UTF-8'))
+                    'name'     => strip_tags(html_entity_decode($result['make_name'] . ', ' . $result['name'], ENT_QUOTES, 'UTF-8'))
                 );
             }
         }

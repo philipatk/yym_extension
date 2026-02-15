@@ -16,22 +16,117 @@ class ControllerExtensionModuleYmm extends Controller {
     }
 
     public function install() {
-        // 1. Load the Settings Model
         $this->load->model('setting/setting');
-
-        // 2. Force the module to be "Enabled" immediately
-        // "module_ymm_status" is the standard key OpenCart looks for.
         $this->model_setting_setting->editSetting('module_ymm', ['module_ymm_status' => 1]);
 
-        // 3. Your existing event code for the menu...
         $this->load->model('setting/event');
+        
+        // Remove old events to prevent duplicates
         $this->model_setting_event->deleteEventByCode('mmy_menu_injection');
+        $this->model_setting_event->deleteEventByCode('ymm_product_hooks');
+
+        // 1. Menu Hook
         $this->model_setting_event->addEvent('mmy_menu_injection', 'admin/view/common/column_left/before', 'extension/module/ymm/addMenu');
+
+        // 2. Product Form Hook (Inject Data) - Runs BEFORE the form loads
+        $this->model_setting_event->addEvent('ymm_product_hooks', 'admin/view/catalog/product_form/before', 'extension/module/ymm/eventViewProductFormBefore');
+
+        // 3. Product Form Hook (Inject HTML Tab) - Runs AFTER the HTML is built
+        $this->model_setting_event->addEvent('ymm_product_hooks', 'admin/view/catalog/product_form/after', 'extension/module/ymm/eventViewProductFormAfter');
+
+        // 4. Product Save Hook (Save YMM Data) - Runs AFTER saving a product
+        $this->model_setting_event->addEvent('ymm_product_hooks', 'admin/model/catalog/product/addProduct/after', 'extension/module/ymm/eventModelProductSaveAfter');
+        $this->model_setting_event->addEvent('ymm_product_hooks', 'admin/model/catalog/product/editProduct/after', 'extension/module/ymm/eventModelProductSaveAfter');
     }
 
     public function uninstall() {
         $this->load->model('setting/event');
         $this->model_setting_event->deleteEventByCode('mmy_menu_injection');
+        $this->model_setting_event->deleteEventByCode('ymm_product_hooks');
+    }
+
+
+
+    public function eventViewProductFormBefore(&$route, &$data) {
+        $this->load->model('extension/module/ymm');
+        $data['ymm_makes'] = $this->model_extension_module_ymm->getMakes();
+
+        $product_id = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : 0;
+
+        if (isset($this->request->post['product_ymm'])) {
+            $data['product_ymm'] = $this->request->post['product_ymm'];
+        } elseif ($product_id) {
+            $data['product_ymm'] = $this->getProductYmm($product_id);
+        } else {
+            $data['product_ymm'] = array();
+        }
+
+        $data['ymm_row'] = 0;
+        if (is_array($data['product_ymm'])) {
+            $data['ymm_row'] = count($data['product_ymm']);
+        }
+
+        $data['is_universal'] = 0;
+        if (!empty($data['product_ymm'])) {
+            foreach ($data['product_ymm'] as $ymm) {
+                if (empty($ymm['model_id'])) {
+                    $data['is_universal'] = 1;
+                    break;
+                }
+            }
+        }
+
+    }
+
+    // 2. Inject Tab HTML after form renders
+    public function eventViewProductFormAfter(&$route, &$args, &$output) {
+        // Load the content of our new tab (using the data from the Before event)
+        $ymm_content = $this->load->view('extension/module/ymm_product_tab', $args);
+
+        // Inject Tab Link after the "Links" tab
+        $tab_link_html = '<li><a href="#tab-ymm" data-toggle="tab">Vehicle Fitment</a></li>';
+        $search_link = '<li><a href="#tab-links" data-toggle="tab">';
+        $output = str_replace($search_link, $tab_link_html . $search_link, $output);
+
+        // Inject Tab Content before the "Links" content
+        $search_content = '<div class="tab-pane" id="tab-links">';
+        $output = str_replace($search_content, $ymm_content . $search_content, $output);
+    }
+
+    // 3. Save Data to Database
+    public function eventModelProductSaveAfter(&$route, &$args, &$output) {
+        if (strpos($route, 'editProduct') !== false) {
+            $product_id = $args[0];
+            $data = $args[1];
+        } else {
+            $product_id = $output;
+            $data = $args[0];
+        }
+
+        // Only run if product_id is valid
+        if ($product_id) {
+            $this->db->query("DELETE FROM " . DB_PREFIX . "product_to_ymm WHERE product_id = '" . (int)$product_id . "'");
+
+            if (isset($data['is_universal']) && $data['is_universal'] == 1) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_to_ymm SET product_id = '" . (int)$product_id . "', model_id = NULL, year_start = NULL, year_end = NULL");
+            } elseif (isset($data['product_ymm'])) {
+                foreach ($data['product_ymm'] as $ymm) {
+                    if (!empty($ymm['model_id'])) {
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_to_ymm SET product_id = '" . (int)$product_id . "', model_id = '" . (int)$ymm['model_id'] . "', year_start = '" . (int)$ymm['year_start'] . "', year_end = '" . (int)$ymm['year_end'] . "'");
+                    }
+                }
+            }
+        }
+    }
+
+    // Helper Function to get data without editing Catalog Model
+    private function getProductYmm($product_id) {
+        $query = $this->db->query("SELECT p2y.*, m.name as model_name, mk.name as make_name 
+                                   FROM " . DB_PREFIX . "product_to_ymm p2y 
+                                   LEFT JOIN " . DB_PREFIX . "ymm_models m ON (p2y.model_id = m.model_id) 
+                                   LEFT JOIN " . DB_PREFIX . "ymm_makes mk ON (m.make_id = mk.make_id) 
+                                   WHERE p2y.product_id = '" . (int)$product_id . "'");
+        return $query->rows;
     }
 
     // 3. Insert the menu item
@@ -264,6 +359,12 @@ class ControllerExtensionModuleYmm extends Controller {
     protected function getForm($type) {
         $data['text_form'] = !isset($this->request->get[$type . '_id']) ? 'Add ' . ucfirst($type) : 'Edit ' . ucfirst($type);
         
+        if (isset($this->error['warning'])) {
+            $data['error_warning'] = $this->error['warning'];
+        } else {
+            $data['error_warning'] = '';
+        }
+
         if (isset($this->request->get[$type . '_id'])) {
             $data['action'] = $this->url->link('extension/module/ymm/edit' . ucfirst($type), 'user_token=' . $this->session->data['user_token'] . '&' . $type . '_id=' . $this->request->get[$type . '_id'], true);
         } else {

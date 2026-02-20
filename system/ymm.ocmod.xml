@@ -26,7 +26,7 @@
         
         <operation error="log">
             <search><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'"]]></search>
-            <add position="replace"><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'" . (isset($this->session->data['ymm']) && !empty($this->session->data['ymm']['model_id']) ? " AND (p2ymm.model_id IS NULL OR (p2ymm.model_id = '" . (int)$this->session->data['ymm']['model_id'] . "' AND p2ymm.year_start <= '" . (int)$this->session->data['ymm']['year_end'] . "' AND p2ymm.year_end >= '" . (int)$this->session->data['ymm']['year_start'] . "'))" : "")]]></add>
+            <add position="replace"><![CDATA[p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'" . (isset($this->session->data['ymm']) && !empty($this->session->data['ymm']['model_id']) ? " AND (p2ymm.model_id IS NULL OR (p2ymm.model_id = '" . (int)$this->session->data['ymm']['model_id'] . "' AND (p2ymm.year_start >= '" . (int)$this->session->data['ymm']['year_start'] . "' OR p2ymm.year_start = 0 OR p2ymm.year_start IS NULL) AND (p2ymm.year_end >= '" . (int)$this->session->data['ymm']['year_end'] . "' OR p2ymm.year_end = 0 OR p2ymm.year_end IS NULL)))" : "")]]></add>
         </operation>
     </file>
 

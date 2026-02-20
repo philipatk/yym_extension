@@ -55,8 +55,8 @@ var ymm_row = {{ ymm_row }};
 
 function addYmm() {
 	var html  = '<tr id="ymm-row' + ymm_row + '">';
-	html += '  <td class="text-left"><input type="text" name="product_ymm[' + ymm_row + '][model]" value="" placeholder="Model" class="form-control" id="input-model' + ymm_row + '" /><input type="hidden" name="product_ymm[' + ymm_row + '][model_id]" value="" /></td>';
-	html += '  <td class="text-left"><input type="number" step="1" name="product_ymm[' + ymm_row + '][year_start]" value="" placeholder="Start Year" class="form-control" /></td>';
+	html += '  <td class="text-left"><div style="position: relative;"><input type="text" name="product_ymm[' + ymm_row + '][model]" value="" placeholder="Model" class="form-control" id="input-model' + ymm_row + '" /><input type="hidden" name="product_ymm[' + ymm_row + '][model_id]" value="" /></div></td>';
+  html += '  <td class="text-left"><input type="number" step="1" name="product_ymm[' + ymm_row + '][year_start]" value="" placeholder="Start Year" class="form-control" /></td>';
 	html += '  <td class="text-left"><input type="number" step="1" name="product_ymm[' + ymm_row + '][year_end]" value="" placeholder="End Year" class="form-control" /></td>';
 	html += '  <td class="text-left"><button type="button" onclick="$(\'#ymm-row' + ymm_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';

@@ -46,10 +46,12 @@ class ControllerExtensionModuleYmm extends Controller {
     }
 
 
-
     public function eventViewProductFormBefore(&$route, &$data) {
         $this->load->model('extension/module/ymm');
+        $this->load->model('tool/image');
+
         $data['ymm_makes'] = $this->model_extension_module_ymm->getMakes();
+        $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
         $product_id = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : 0;
 
@@ -59,6 +61,16 @@ class ControllerExtensionModuleYmm extends Controller {
             $data['product_ymm'] = $this->getProductYmm($product_id);
         } else {
             $data['product_ymm'] = array();
+        }
+
+        if (!empty($data['product_ymm'])) {
+            foreach ($data['product_ymm'] as &$ymm) {
+                if (isset($ymm['image']) && is_file(DIR_IMAGE . $ymm['image'])) {
+                    $ymm['thumb'] = $this->model_tool_image->resize($ymm['image'], 100, 100);
+                } else {
+                    $ymm['thumb'] = $data['placeholder'];
+                }
+            }
         }
 
         $data['ymm_row'] = 0;
@@ -75,8 +87,8 @@ class ControllerExtensionModuleYmm extends Controller {
                 }
             }
         }
-
     }
+
 
     // 2. Inject Tab HTML after form renders
     public function eventViewProductFormAfter(&$route, &$args, &$output) {
@@ -112,7 +124,8 @@ class ControllerExtensionModuleYmm extends Controller {
             } elseif (isset($data['product_ymm'])) {
                 foreach ($data['product_ymm'] as $ymm) {
                     if (!empty($ymm['model_id'])) {
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_to_ymm SET product_id = '" . (int)$product_id . "', model_id = '" . (int)$ymm['model_id'] . "', year_start = '" . (int)$ymm['year_start'] . "', year_end = '" . (int)$ymm['year_end'] . "'");
+                        $image = isset($ymm['image']) ? $this->db->escape($ymm['image']) : '';
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_to_ymm SET product_id = '" . (int)$product_id . "', model_id = '" . (int)$ymm['model_id'] . "', year_start = '" . (int)$ymm['year_start'] . "', year_end = '" . (int)$ymm['year_end'] . "', image = '" . $image . "'");
                     }
                 }
             }

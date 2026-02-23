@@ -59,6 +59,11 @@ class ControllerExtensionModuleYmm extends Controller {
             $data['product_ymm'] = $this->request->post['product_ymm'];
         } elseif ($product_id) {
             $data['product_ymm'] = $this->getProductYmm($product_id);
+            
+            // echo '<pre style="background: #111; color: #0f0; padding: 20px; z-index: 9999; position: relative; font-size: 14px; overflow: auto;">';
+            // print_r($data);
+            // echo '</pre>';
+            // die(); 
         } else {
             $data['product_ymm'] = array();
         }
@@ -71,6 +76,7 @@ class ControllerExtensionModuleYmm extends Controller {
                     $ymm['thumb'] = $data['placeholder'];
                 }
             }
+            unset($ymm);
         }
 
         $data['ymm_row'] = 0;

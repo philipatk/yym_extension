@@ -27,7 +27,7 @@ class ControllerExtensionModuleVehicleFits extends Controller {
                         if ($result['year_end']) {
                             $year_text .= ' - ' . $result['year_end'];
                         } else {
-                            $year_text .= ' >';
+                            $year_text .= ' <';
                         }
                     }
                     $title = trim($result['make_name'] . ', ' . $result['model_name'] . ' ' . $year_text);

@@ -1,3 +1,20 @@
+<style>
+  /* Add smooth transition */
+  #ymm-table .img-thumbnail img {
+    transition: transform 0.2s ease-in-out;
+    background: #fff;
+  }
+  
+  /* Zoom the image 3x when hovering */
+  #ymm-table .img-thumbnail img:hover {
+    transform: scale(3.5); /* Adjust this number to make it bigger/smaller */
+    z-index: 9999;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border-radius: 4px;
+  }
+</style>
+
 <div class="tab-pane" id="tab-ymm">
   <div class="form-group">
     <label class="col-sm-2 control-label" for="input-universal">Universal Product</label>
@@ -28,7 +45,7 @@
           {% if product_ymm %}
           {% for ymm in product_ymm %}
           <tr id="ymm-row{{ ymm_row }}">
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle;">
               <a href="" id="thumb-image{{ ymm_row }}" data-toggle="image" class="img-thumbnail">
                 <img src="{{ ymm.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
               </a>
@@ -62,7 +79,7 @@ var ymm_row = {{ ymm_row }};
 
 function addYmm() {
 	var html  = '<tr id="ymm-row' + ymm_row + '">';
-	html += '  <td class="text-center"><a href="" id="thumb-image' + ymm_row + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="product_ymm[' + ymm_row + '][image]" value="" id="input-image' + ymm_row + '" /></td>';
+	html += '  <td class="text-center" style="vertical-align: middle;"><a href="" id="thumb-image' + ymm_row + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="product_ymm[' + ymm_row + '][image]" value="" id="input-image' + ymm_row + '" /></td>';
 	html += '  <td class="text-left"><div style="position: relative;"><input type="text" name="product_ymm[' + ymm_row + '][model]" value="" placeholder="Model" class="form-control" id="input-model' + ymm_row + '" /><input type="hidden" name="product_ymm[' + ymm_row + '][model_id]" value="" /></div></td>';
   html += '  <td class="text-left"><input type="number" step="1" name="product_ymm[' + ymm_row + '][year_start]" value="" placeholder="Start Year" class="form-control" /></td>';
 	html += '  <td class="text-left"><input type="number" step="1" name="product_ymm[' + ymm_row + '][year_end]" value="" placeholder="End Year" class="form-control" /></td>';

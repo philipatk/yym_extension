@@ -33,11 +33,11 @@ class ControllerExtensionModuleVehicleFits extends Controller {
                     $title = trim($result['make_name'] . ', ' . $result['model_name'] . ' ' . $year_text);
                 }
 
-                // Process the image you saved in the admin panel
+
                 if (!empty($result['image']) && is_file(DIR_IMAGE . $result['image'])) {
-                    $image = $this->model_tool_image->resize($result['image'], 150, 150);
+                    $image = $this->model_tool_image->resize($result['image'], 800, 800);
                 } else {
-                    $image = $this->model_tool_image->resize('placeholder.png', 150, 150);
+                    $image = $this->model_tool_image->resize('placeholder.png', 800, 800);
                 }
 
                 $data['vehicles'][] = array(
